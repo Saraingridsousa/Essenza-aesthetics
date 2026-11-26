@@ -3,3 +3,6 @@ __pycache__/
 /preview.png
 /painel.png
 /mobile.png
+*.sqlite3
+*.sqlite3-*
+.env
