@@ -21,7 +21,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/photos/room.webp assets/photos/towels.webp
+          git add assets/photos/*.webp assets/social/og-cover.jpg
           git diff --cached --quiet && exit 0
           git commit -m "assets: add optimized licensed spa reference photos"
           git push origin HEAD:main

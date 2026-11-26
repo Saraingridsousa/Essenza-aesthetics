@@ -9,9 +9,9 @@ Essenza is a fictional aesthetics clinic designed to demonstrate how a small bus
 
 | Module | Features |
 | --- | --- |
-| Commercial website | Custom SVG identity, responsive layout, six filterable services, gallery dialog, accessible motion and mobile booking CTA |
+| Commercial website | Custom SVG identity, responsive layout, six filterable services with local WebP photos, gallery dialog, accessible motion and mobile booking CTA |
 | Lead capture | Fictional sample data, validation, duplicate prevention, contact period and allowlisted UTM source |
-| CRM | Table and Kanban, status changes, search, CSV export and optional scenario of 90 synthetic leads |
+| CRM | Table and drag-and-drop Kanban (desktop and touch handle), status changes, search, CSV export and optional scenario of 90 synthetic leads |
 | Analytics | UTC month cohorts, date/channel filters, acquisition breakdown, current converted share by service and report |
 | Local backend | Python HTTP API, SQLite, status history, bearer token and transactional outbox with retry/lease fencing |
 | Automation | Local worker, aggregate JSON report, importable n8n workflow (simulation only) |
@@ -24,7 +24,7 @@ Essenza is a fictional aesthetics clinic designed to demonstrate how a small bus
 3. Load the 90-lead scenario to explore the Kanban, date/channel filters and commercial report. Reset the demo to return to the three-record sample.
 4. Ask the guided assistant an administrative question, e.g. “Como agendar uma avaliação?”. Unsupported questions are escalated instead of answered.
 
-The public demo runs in memory; reload discards changes. No credentials or external API required. Gallery photography is a licensed visual reference, not actual clinic imagery; optional remote loading is visitor-initiated when local assets are missing. Never enter real personal or health data.
+The public demo runs in memory; reload discards changes. No credentials or external API required. Photography throughout the page is a licensed visual reference, not actual clinic imagery; optional remote loading is visitor-initiated when local assets are missing. Never enter real personal or health data.
 
 ## Architecture
 

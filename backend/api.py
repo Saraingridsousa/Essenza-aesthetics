@@ -142,7 +142,20 @@ class Handler(BaseHTTPRequestHandler):
                    "/index.html": ("index.html", "text/html; charset=utf-8"),
                    "/assets/essenza-mark.svg": ("assets/essenza-mark.svg", "image/svg+xml"),
                    "/assets/photos/room.webp": ("assets/photos/room.webp", "image/webp"),
-                   "/assets/photos/towels.webp": ("assets/photos/towels.webp", "image/webp")}
+                   "/assets/photos/towels.webp": ("assets/photos/towels.webp", "image/webp"),
+                   "/assets/photos/cleansing.webp": ("assets/photos/cleansing.webp", "image/webp"),
+                   "/assets/photos/facial-massage.webp": ("assets/photos/facial-massage.webp", "image/webp"),
+                   "/assets/photos/hydration.webp": ("assets/photos/hydration.webp", "image/webp"),
+                   "/assets/photos/drainage.webp": ("assets/photos/drainage.webp", "image/webp"),
+                   "/assets/photos/bodycare.webp": ("assets/photos/bodycare.webp", "image/webp"),
+                   "/assets/photos/relaxing.webp": ("assets/photos/relaxing.webp", "image/webp"),
+                   "/assets/photos/about-space.webp": ("assets/photos/about-space.webp", "image/webp"),
+                   "/assets/photos/skincare.webp": ("assets/photos/skincare.webp", "image/webp"),
+                   "/assets/photos/reception.webp": ("assets/photos/reception.webp", "image/webp"),
+                   "/assets/photos/team-care.webp": ("assets/photos/team-care.webp", "image/webp"),
+                   "/assets/photos/experience.webp": ("assets/photos/experience.webp", "image/webp"),
+                   "/assets/photos/cta-room.webp": ("assets/photos/cta-room.webp", "image/webp"),
+                   "/assets/social/og-cover.jpg": ("assets/social/og-cover.jpg", "image/jpeg")}
         if path not in allowed:
             return False
         relative, content_type = allowed[path]
