@@ -140,11 +140,17 @@ class Handler(BaseHTTPRequestHandler):
         root = Path(__file__).resolve().parents[1]
         allowed = {"/": ("index.html", "text/html; charset=utf-8"),
                    "/index.html": ("index.html", "text/html; charset=utf-8"),
-                   "/assets/essenza-mark.svg": ("assets/essenza-mark.svg", "image/svg+xml")}
+                   "/assets/essenza-mark.svg": ("assets/essenza-mark.svg", "image/svg+xml"),
+                   "/assets/photos/room.webp": ("assets/photos/room.webp", "image/webp"),
+                   "/assets/photos/towels.webp": ("assets/photos/towels.webp", "image/webp")}
         if path not in allowed:
             return False
         relative, content_type = allowed[path]
-        body = (root / relative).read_bytes()
+        file=root / relative
+        if not file.is_file():
+            self.send(404,{"error":"Asset not available"})
+            return True
+        body = file.read_bytes()
         if relative == "index.html":
             body = body.replace(b'<html lang="pt-BR">', b'<html lang="pt-BR" data-local-demo="true">', 1)
         self.send_response(200)

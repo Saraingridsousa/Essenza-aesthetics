@@ -1,55 +1,101 @@
-# Essenza Estética — Landing Page & Lead Management
+<h1 align="center">Essenza Estética</h1>
+<p align="center">Commercial Web Experience · CRM · Analytics · Process Automation</p>
+<p align="center"><a href="https://saraingridsousa.github.io/Essenza-aesthetics/">Live demo</a> · <a href="docs/CASE-STUDY.md">Technical case study</a> · <a href="docs/LOCAL-AUTOMATION.md">Local setup</a> · <a href="https://github.com/Saraingridsousa/Essenza-aesthetics/actions">Validation evidence</a></p>
+<p align="center"><img alt="Validation workflow" src="https://github.com/Saraingridsousa/Essenza-aesthetics/actions/workflows/validate.yml/badge.svg"></p>
 
-A responsive commercial website and interactive lead-management demonstration by Sara Ingrid. Essenza is a fictional clinic created for a portfolio; it does not provide medical or aesthetic services.
+## Overview
 
-## Features
+Essenza is a fictional aesthetics clinic designed to demonstrate how a small business can turn a responsive website into a lead-management and analytics workflow. It is a portfolio project, not a real clinic or a production CRM.
 
-- V2: user-selected floral symbol recreated as an SVG, favicon, responsive header and editorial illustrations.
-- Six service cards in three filterable categories, clinic concept, experience, FAQ, contact section and mobile booking CTA.
-- Lead form with sample-data autofill, contact-period preference, validation and duplicate detection.
-- Session-only dashboard with search, status filters, four-stage lead funnel, service and source counts, event history and CSV export.
-- Resettable synthetic dataset; no third-party runtime dependencies.
+| Module | Features |
+| --- | --- |
+| Commercial website | Custom SVG identity, responsive layout, six filterable services, gallery dialog, accessible motion and mobile booking CTA |
+| Lead capture | Fictional sample data, validation, duplicate prevention, contact period and allowlisted UTM source |
+| CRM | Table and Kanban, status changes, search, CSV export and optional scenario of 90 synthetic leads |
+| Analytics | UTC month cohorts, date/channel filters, acquisition breakdown, current converted share by service and report |
+| Local backend | Python HTTP API, SQLite, status history, bearer token and transactional outbox with retry/lease fencing |
+| Automation | Local worker, aggregate JSON report, importable n8n workflow (simulation only) |
+| Assistant | Text retrieval with source sections, abstention on unsupported questions; optional local Ollama composition restricted to approved sentences |
 
-- V3: entrance animations, scroll microinteractions with reduced-motion support, conceptual gallery with opt-in external photography, deterministic guided FAQ and explicitly scoped commercial metrics.
+## Try the public demo
 
-- V4: the same landing page runs in a separate authenticated loopback mode with persisted leads, status updates, and a real transactional outbox simulation. The GitHub Pages site is still entirely static.
+1. Open the [website](https://saraingridsousa.github.io/Essenza-aesthetics/), select a service and use the sample-data button.
+2. Submit the fictional lead and open the dashboard via the demo banner.
+3. Load the 90-lead scenario to explore the Kanban, date/channel filters and commercial report. Reset the demo to return to the three-record sample.
+4. Ask the guided assistant an administrative question, e.g. “Como agendar uma avaliação?”. Unsupported questions are escalated instead of answered.
 
-## Live demo
-
-https://saraingridsousa.github.io/Essenza-aesthetics/
-
-Open `index.html` directly or run `python -m http.server 8000` and visit http://localhost:8000. Select a service, fill the form with example data, submit, and open the dashboard via the demo banner. Use only fictional information; the email must end in example.com/.org/.net. No form information is sent externally. Optional gallery photos are requested from Pexels only on explicit visitor action; the IP is visible to that image host, with referrer suppressed.
-
-## Integrated local demo
-
-Run `python -m backend.api` after setting `ESSENZA_DEMO_TOKEN` as described in [the setup guide](docs/LOCAL-AUTOMATION.md). Open **http://127.0.0.1:8765/**, enter the token in the local banner, submit a sample lead and inspect the persistent dashboard. Use the queue controls to simulate delivery or failure. The token is held only in page memory and must be entered again after reload. No external notification is sent.
+The public demo runs in memory; reload discards changes. No credentials or external API required. Gallery photography is a licensed visual reference, not actual clinic imagery; optional remote loading is visitor-initiated when local assets are missing. Never enter real personal or health data.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  A[Landing page] --> B[Form validation]
-  B --> C[Duplicate detection]
-  C --> D[In-memory lead records]
-  D --> E[Dashboard and event history]
-  D --> F[CSV export]
+  A[Responsive UI] --> B[Public in-memory CRM]
+  A --> C[Local authenticated API]
+  C --> D[(SQLite)]
+  D --> E[Transactional outbox]
+  E --> F[Worker or n8n template]
+  C --> G[Knowledge assistant]
+  G --> H[Optional local Ollama]
+  B --> I[Analytics and CSV]
+  D --> I
 ```
 
-## Testing
+The two execution modes are deliberately isolated. Local API data are never sent to the public static demo.
+
+## Run the complete local demo
+
+Python 3.10+; no runtime dependencies.
 
 ```bash
-python -m pip install playwright
-python -m playwright install chromium
-python smoke_test.py
+# Bash
+export ESSENZA_DEMO_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+python -m backend.api
 ```
 
-The smoke test verifies the logo, category filters, lead capture, duplicate prevention, email validation, contact period, search, funnel stages, CSV export, reset, mobile navigation, and layout overflow on six viewport widths (320, 390, 768, 801, 1024, 1440) for both the landing page and dashboard. It loads local HTML with the SVG embedded as a data URI for isolated testing. Set `CHROMIUM_PATH` to use an existing Chromium executable. Screenshots are generated locally and excluded from version control.
+PowerShell:
 
-## Scope and roadmap
+```powershell
+$env:ESSENZA_DEMO_TOKEN = python -c "import secrets; print(secrets.token_urlsafe(32))"
+python -m backend.api
+```
 
-The public static demo has no real scheduling, persistence, authentication, backend integration, CRM integration, notifications or generative AI. The local API serves the same UI in integrated mode; see [local setup and n8n instructions](docs/LOCAL-AUTOMATION.md). Dashboard access is intentionally public for demonstration only. The funnel displays current stage counts, not historical conversion rates. Do not collect actual client information. No invented testimonials, clinical credentials or results. The illustrations are conceptual, not photographs. The noindex directive is intentional for the fictitious brand.
+Open http://127.0.0.1:8765/ and enter the token from your shell. The integrated site supports persistence, status history and queue simulation.
 
-Next: download and optimize authorized photography locally, deploy a protected backend with HTTPS and production authentication, connect a real CRM/n8n instance, and evaluate an evidence-based AI assistant. Actual deployments require approved clinical content, contact information, security and privacy controls.
+Alternatively, with Docker installed and the environment token set:
+
+```bash
+docker compose up --build
+```
+
+Docker maps only host loopback and stores SQLite in a named volume. Native n8n and Ollama setup are documented separately; Docker mode does not include either service.
+
+```bash
+python -m backend.worker process
+python -m backend.worker report
+```
+
+## Quality and evidence
+
+```bash
+python -m unittest backend.test_api backend.test_assistant backend.test_worker -v
+python -m pip install playwright==1.51.0
+python -m playwright install chromium
+python smoke_test.py
+python -m unittest backend.test_browser -v
+```
+
+The validation workflow runs backend regression tests, six-width browser checks, end-to-end local persistence tests and a container health check. The workflow saves screenshots as artifacts on successful browser validation; consult actual [run results](https://github.com/Saraingridsousa/Essenza-aesthetics/actions) rather than treating the existence of a test as proof it passed.
+
+## Scope
+
+- No real clinic, patients, appointment reservation, notifications, payment, authentication for production or hosted backend.
+- The n8n workflow is a manual-trigger template; no live n8n delivery has been verified. The local worker demonstrates queue processing without external side effects.
+- Public assistance is deterministic text retrieval. Optional Ollama is a constrained composition experiment, not a full RAG system or medical assistant; mock tests do not prove a real model was run.
+- Current converted-share metrics are not historical visitor conversion. All commercial records are fictional.
+- Approved clinic content, access controls, data protection, deployment and provider integrations are required for production.
+
+See [image credits](docs/IMAGE-CREDITS.md) and [technical case study](docs/CASE-STUDY.md).
 
 ## Author
 

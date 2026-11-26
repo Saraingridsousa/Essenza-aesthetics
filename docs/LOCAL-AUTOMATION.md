@@ -1,4 +1,4 @@
-# Local automation prototype (V3)
+# Integrated local demo and automation
 
 The public GitHub Pages site remains entirely static. The Python/SQLite prototype serves the same landing page in a separate local-only integrated mode. It demonstrates durable synthetic lead ingestion and a transactional outbox. It never connects to the public GitHub Pages form, collects real client information, or sends notifications.
 
@@ -22,4 +22,14 @@ The API uses a transaction to create the lead and its event together; a uniquene
 
 `python -m unittest backend.test_api -v` checks validation, idempotent capture, outbox creation, retries and lease fencing. `python -m unittest backend.test_browser -v` requires Playwright/Chromium and exercises the browser, HTTP API, SQLite persistence and queue simulation. These are functional tests, not a production security audit. Before any real deployment, implement user authentication, authorization, rate limits, HTTPS, encrypted storage, backups, audit/retention controls, monitoring, CRM delivery with deduplication and a clinical content review.
 
-The browser FAQ is deterministic, not an LLM. A future generative assistant would require a curated knowledge base, evaluation and escalation rules; it must not recommend clinical procedures or diagnose.
+## Local worker and reporting
+
+With the same ESSENZA_DB environment, run `python -m backend.worker process` to claim and acknowledge up to 20 available events, `python -m backend.worker fail` to simulate negative acknowledgements, and `python -m backend.worker report` to emit aggregate JSON. No notifications are sent. An operator may schedule the report locally, but no scheduler is configured.
+
+## Optional local model
+
+The public assistant is deterministic. For a native local demo, install and start Ollama separately, download a model you are authorized to use, and set ESSENZA_OLLAMA_MODEL to its installed model name before starting the backend. The backend connects only to 127.0.0.1:11434, sends approved sentences for an allowlisted topic, and validates the returned text against approved permutations. The raw visitor question and lead records never reach the model. If unavailable or invalid, the answer falls back to the knowledge base. This integration is unit-tested with a stub; a live Ollama inference run is not verified here. Do not use for medical advice.
+
+## Docker
+
+Set ESSENZA_DEMO_TOKEN in the shell and run `docker compose up --build` from the repository root. The API runs as a non-root user and port 8765 is mapped only to host loopback. SQLite is stored in a named volume. The optional Ollama and n8n examples are native-host setups; they are not included in this compose file. Do not expose this demo to the internet.

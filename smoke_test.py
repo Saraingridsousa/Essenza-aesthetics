@@ -40,7 +40,7 @@ with sync_playwright() as pw:
     assert page.locator('#service').input_value() == 'Massagem facial'
     page.locator('#sample').click()
     page.locator('#period').select_option('Tarde')
-    page.locator('button[type=submit]').click()
+    page.locator('#lead-form button[type=submit]').click()
     assert 'registrada' in page.locator('#form-status').inner_text()
     page.locator('[data-dashboard]').first.click()
     assert page.locator('#lead-rows tr').count() == 4
@@ -72,7 +72,7 @@ with sync_playwright() as pw:
     page.locator('#close-dashboard').click()
     page.locator('[data-service]').nth(1).click()
     page.locator('#sample').click()
-    page.locator('button[type=submit]').click()
+    page.locator('#lead-form button[type=submit]').click()
     assert 'não foi duplicado' in page.locator('#form-status').inner_text()
     page.locator('#email').fill('not-demo@gmail.com')
     assert not page.locator('#email').evaluate('(e)=>e.checkValidity()')

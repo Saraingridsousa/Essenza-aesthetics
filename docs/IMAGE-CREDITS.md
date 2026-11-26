@@ -1,8 +1,10 @@
-# Image references
+# Photography and visual assets
 
-All illustrations and the Essenza mark are original to this demo. The gallery offers optional external stock-photo references, not photos of the fictional clinic. No person is presented as a client or staff member.
+The Essenza floral mark and editorial SVG illustrations were created for this fictional portfolio project.
 
-- Max Vakhtbovych — https://www.pexels.com/photo/interior-of-a-massage-room-7598366/
-- Valeria Boltneva — https://www.pexels.com/pt-br/foto/interior-de-spa-luxuoso-com-toalhas-enroladas-29962514/
+Two optional stock references are documented and may be downloaded with `python scripts/fetch_photos.py` after installing Pillow:
 
-License: https://www.pexels.com/license/ . Both source pages list free-use licensing. The original image downloads could not be verified in the development environment; fallback illustrations remain visible when remote loading fails. Before actual commercial deployment, review depicted rights and replace stock references with approved clinic imagery.
+- [Interior of a Massage Room](https://www.pexels.com/photo/interior-of-a-massage-room-7598366/) — Pexels ID 7598366.
+- [Luxurious Spa Interior with Rolled Towels](https://www.pexels.com/photo/luxurious-spa-interior-with-rolled-towels-29962514/) — Pexels ID 29962514.
+
+Both source pages identify free stock photos. [Pexels License](https://www.pexels.com/license/) permits use in commercial projects subject to its terms; the photos are incorporated as references in the website, not offered as standalone stock downloads. The photos do not depict a real Essenza clinic. The acquisition workflow retrieves and optimizes WebP files if the source CDN is reachable. If local files are absent, the site retains the original illustrations and optionally loads external references by visitor action. Replace these with approved client photography in any actual deployment.
