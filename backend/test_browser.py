@@ -50,7 +50,7 @@ class LocalFlow(unittest.TestCase):
                     expect(page.locator("#dashboard")).to_be_visible()
                     expect(page.locator("#queue-counts")).to_contain_text("Pendentes: 1")
                     expect(page.locator("#lead-rows tr")).to_have_count(1)
-                    page.locator("#lead-rows select").first.select_option("Agendado")
+                    page.locator(".kanban-card").first.drag_to(page.locator('.kanban-col[data-stage="Agendado"] h4'), source_position={"x": 35, "y": 18})
                     expect(page.locator("#dash-status")).to_contain_text("Status salvo")
                     expect(page.locator("#lead-rows select").first).to_be_enabled()
                     page.locator("#process-event").click()

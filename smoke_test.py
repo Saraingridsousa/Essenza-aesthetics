@@ -54,7 +54,11 @@ with sync_playwright() as pw:
     page.locator('#lead-search').fill('Visitante')
     assert page.locator('#lead-rows tr').count() == 1
     page.locator('#lead-search').fill('')
-    page.locator('.kanban-card select').first.select_option('Convertido')
+    source = page.locator('.kanban-card[data-lead-id="local-1"]')
+    target = page.locator('.kanban-col[data-stage="Convertido"] h4')
+    source.drag_to(target, source_position={"x": 35, "y": 18})
+    assert page.locator('.kanban-col[data-stage="Convertido"] .kanban-card[data-lead-id="local-1"]').count() == 1
+    assert 'Novo → Convertido' in page.locator('#status-history').inner_text()
     assert page.locator('#commercial-metrics strong').first.inner_text() == '25%'
     page.locator('#status-filter').select_option('Convertido')
     assert page.locator('#lead-rows tr').count() == 1

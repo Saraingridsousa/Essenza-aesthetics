@@ -34,6 +34,6 @@ jobs:
           ESSENZA_DEMO_TOKEN: test-token-for-ci-only-0123456789
         run: |
           docker compose up -d --build
-          trap 'docker compose down -v' EXIT
-          curl --fail --retry 12 --retry-connrefused --retry-delay 1 http://127.0.0.1:8765/health
+          trap 'docker compose logs --no-color; docker compose down -v' EXIT
+          curl --fail --retry 12 --retry-all-errors --retry-delay 1 --max-time 5 http://127.0.0.1:8765/health
           curl --fail -H "Authorization: Bearer $ESSENZA_DEMO_TOKEN" http://127.0.0.1:8765/metrics
