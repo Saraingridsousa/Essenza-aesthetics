@@ -23,6 +23,15 @@ with sync_playwright() as pw:
     assert page.locator('img[data-photo][src]').count() == 0
     page.locator('[data-assistant=price]').click()
     assert 'não possui preços' in page.locator('#assistant-answer').inner_text()
+    page.locator('#assistant-text').fill('Como agendar uma avaliação?')
+    page.locator('#assistant-query button').click()
+    assert page.locator('#assistant-sources a').count() == 1
+    page.locator('#assistant-text').fill('Tenho alergia, posso fazer massagem?')
+    page.locator('#assistant-query button').click()
+    assert 'Não tenho informação suficiente' in page.locator('#assistant-answer').inner_text()
+    page.locator('.gallery-expand').first.click()
+    assert page.locator('#gallery-dialog').is_visible()
+    page.locator('#gallery-dialog button').click()
     page.locator('[data-category=Corporal]').click()
     assert page.locator('.service:visible').count() == 2
     page.locator('[data-category=Todos]').click()
@@ -38,10 +47,14 @@ with sync_playwright() as pw:
     assert page.locator('#kpis strong').first.inner_text() == '4'
     assert page.locator('#lead-rows tr').first.locator('td').last.inner_text() == 'Tarde'
     assert page.locator('#funnel .barrow').count() == 4
+    assert page.locator('.kanban-card').count() == 4
+    assert page.locator('#monthly .barrow').count() >= 1
+    page.locator('#generate-report').click()
+    assert 'Registros recebidos no recorte: 4' in page.locator('#report-output').inner_text()
     page.locator('#lead-search').fill('Visitante')
     assert page.locator('#lead-rows tr').count() == 1
     page.locator('#lead-search').fill('')
-    page.locator('#lead-rows select').first.select_option('Convertido')
+    page.locator('.kanban-card select').first.select_option('Convertido')
     assert page.locator('#commercial-metrics strong').first.inner_text() == '25%'
     page.locator('#status-filter').select_option('Convertido')
     assert page.locator('#lead-rows tr').count() == 1
@@ -65,6 +78,10 @@ with sync_playwright() as pw:
     assert not page.locator('#email').evaluate('(e)=>e.checkValidity()')
     page.locator('[data-dashboard]').first.click()
     page.on('dialog', lambda d: d.accept())
+    page.locator('#load-scenario').click()
+    assert page.locator('.kanban-card').count() == 90
+    page.locator('#campaign-filter').select_option('Instagram')
+    assert 0 < page.locator('.kanban-card').count() < 90
     page.locator('#reset').click()
     assert page.locator('#lead-rows tr').count() == 3
     page.locator('#close-dashboard').click()

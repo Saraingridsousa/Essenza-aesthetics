@@ -41,7 +41,13 @@ def init(path):
           service TEXT NOT NULL, state TEXT NOT NULL DEFAULT 'pending',
           attempts INTEGER NOT NULL DEFAULT 0, available INTEGER NOT NULL,
           lease TEXT, UNIQUE(lead_id));
+        CREATE TABLE IF NOT EXISTS status_history (
+          id INTEGER PRIMARY KEY, lead_id TEXT NOT NULL REFERENCES leads(id),
+          from_status TEXT NOT NULL, to_status TEXT NOT NULL, changed INTEGER NOT NULL);
         """)
+        columns={row[1] for row in db.execute("PRAGMA table_info(leads)")}
+        if "campaign" not in columns:
+            db.execute("ALTER TABLE leads ADD COLUMN campaign TEXT NOT NULL DEFAULT 'Direto'")
 
 def validate(data):
     if not isinstance(data, dict) or data.get("consent") is not True:
@@ -55,10 +61,13 @@ def validate(data):
     origin = data.get("origin", "API de teste")
     if service not in SERVICES or period not in PERIODS or origin not in ORIGINS:
         raise ValueError("Invalid service, period or origin")
-    return name.strip(), email.strip().lower(), service, period, origin
+    campaign=data.get("campaign","Direto")
+    if campaign not in ("Instagram","Google","Indicação","Direto"):
+        raise ValueError("Invalid campaign")
+    return name.strip(), email.strip().lower(), service, period, origin, campaign
 
 def capture(path, data):
-    name, email, service, period, origin = validate(data)
+    name, email, service, period, origin, campaign = validate(data)
     now = int(time.time())
     with connect(path) as db:
         db.execute("BEGIN IMMEDIATE")
@@ -66,8 +75,8 @@ def capture(path, data):
         if existing:
             return existing["id"], False
         lead_id = str(uuid.uuid4())
-        db.execute("INSERT INTO leads(id,name,email,service,period,origin,created) VALUES(?,?,?,?,?,?,?)",
-                   (lead_id,name,email,service,period,origin,now))
+        db.execute("INSERT INTO leads(id,name,email,service,period,origin,created,campaign) VALUES(?,?,?,?,?,?,?,?)",
+                   (lead_id,name,email,service,period,origin,now,campaign))
         db.execute("INSERT INTO outbox(id,lead_id,service,available) VALUES(?,?,?,?)",
                    (str(uuid.uuid4()),lead_id,service,now))
         return lead_id, True
@@ -174,6 +183,11 @@ class Handler(BaseHTTPRequestHandler):
         if path=="/leads":
             with connect(self.server.db_path) as db:
                 rows=[dict(r) for r in db.execute("SELECT * FROM leads ORDER BY created DESC")]
+                history={}
+                for item in db.execute("SELECT lead_id,from_status,to_status,changed FROM status_history ORDER BY id"):
+                    history.setdefault(item["lead_id"],[]).append(dict(item))
+                for row in rows:
+                    row["history"]=history.get(row["id"],[])
             return self.send(200,{"leads":rows})
         return self.send(404,{"error":"Not found"})
 
@@ -201,7 +215,12 @@ class Handler(BaseHTTPRequestHandler):
                 if not isinstance(data,dict) or data.get("status") not in STATUSES:
                     raise ValueError("Invalid status")
                 with connect(self.server.db_path) as db:
-                    updated=db.execute("UPDATE leads SET status=? WHERE id=?",(data["status"],lead_id)).rowcount
+                    db.execute("BEGIN IMMEDIATE")
+                    old=db.execute("SELECT status FROM leads WHERE id=?",(lead_id,)).fetchone()
+                    updated=bool(old)
+                    if old and old["status"]!=data["status"]:
+                        db.execute("UPDATE leads SET status=? WHERE id=?",(data["status"],lead_id))
+                        db.execute("INSERT INTO status_history(lead_id,from_status,to_status,changed) VALUES(?,?,?,?)",(lead_id,old["status"],data["status"],int(time.time())))
                 return self.send(200 if updated else 404,{"updated":bool(updated)})
             return self.send(404,{"error":"Not found"})
         except ValueError as e:
