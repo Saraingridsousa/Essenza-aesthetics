@@ -21,7 +21,7 @@ SOURCES.update({
     "reception.webp":"https://images.pexels.com/photos/16571736/pexels-photo-16571736.jpeg?auto=compress&w=1200",
     "team-care.webp":"https://images.pexels.com/photos/5659049/pexels-photo-5659049.jpeg?auto=compress&w=1200",
     "experience.webp":"https://images.pexels.com/photos/6899553/pexels-photo-6899553.jpeg?auto=compress&w=1200",
-    "cta-neutral.webp":"https://images.pexels.com/photos/6560312/pexels-photo-6560312.jpeg?auto=compress&w=1200",
+    "cta-spa.webp":"https://images.pexels.com/photos/35884499/pexels-photo-35884499.jpeg?auto=compress&w=1200",
 })
 
 def make_cover(folder):
