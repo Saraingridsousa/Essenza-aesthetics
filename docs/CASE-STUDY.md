@@ -8,7 +8,7 @@ A small aesthetics business needs to present services, make contact easy and org
 
 Two isolated modes: static GitHub Pages for public portfolio visitors, and a loopback Python/SQLite application for technical demonstrations. The latter authenticates data operations with a memory-only bearer token. No customer information is intended for either mode.
 
-The UI uses vanilla HTML/CSS/JS, a custom floral SVG, progressive motion and responsive layouts. A semantic gallery dialog and opt-in stock photography avoid pretending that a fictional clinic has a physical space.
+The UI uses vanilla HTML/CSS/JS, a custom floral SVG, progressive motion and responsive layouts. A photographic gallery uses local stock assets with fallback illustrations; the footer and repository retain the conceptual-project disclosure and image credits.
 
 ## Data model
 

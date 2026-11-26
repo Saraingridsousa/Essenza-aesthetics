@@ -20,7 +20,10 @@ with sync_playwright() as pw:
     assert not page.locator('#local-connect').is_visible()
     assert not page.locator('#local-queue').is_visible()
     assert page.locator('.gallery-card').count() == 3
-    assert page.locator('img[data-photo][src]').count() == 0
+    assert page.locator('#galeria [data-local-photo]').count() == 3
+    assert page.locator('#galeria a[href*="pexels"]').count() == 0
+    assert page.locator('#galeria button').count() == 0
+    assert page.locator('#gallery-dialog').count() == 0
     page.locator('[data-assistant=price]').click()
     assert 'não possui preços' in page.locator('#assistant-answer').inner_text()
     page.locator('#assistant-text').fill('Como agendar uma avaliação?')
@@ -29,9 +32,6 @@ with sync_playwright() as pw:
     page.locator('#assistant-text').fill('Tenho alergia, posso fazer massagem?')
     page.locator('#assistant-query button').click()
     assert 'Não tenho informação suficiente' in page.locator('#assistant-answer').inner_text()
-    page.locator('.gallery-expand').first.click()
-    assert page.locator('#gallery-dialog').is_visible()
-    page.locator('#gallery-dialog button').click()
     page.locator('[data-category=Corporal]').click()
     assert page.locator('.service:visible').count() == 2
     page.locator('[data-category=Todos]').click()
