@@ -17,6 +17,8 @@ with sync_playwright() as pw:
     page.screenshot(path=str(p.parent/'preview.png'))
     assert page.locator('h1').is_visible()
     assert page.locator('.header .brand img').evaluate('(i)=>i.complete && i.naturalWidth>0')
+    assert not page.locator('#local-connect').is_visible()
+    assert not page.locator('#local-queue').is_visible()
     assert page.locator('.gallery-card').count() == 3
     assert page.locator('img[data-photo][src]').count() == 0
     page.locator('[data-assistant=price]').click()
