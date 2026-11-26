@@ -1,0 +1,15 @@
+services:
+  essenza:
+    build: .
+    ports:
+      - "127.0.0.1:8765:8765"
+    environment:
+      ESSENZA_DEMO_TOKEN: ${ESSENZA_DEMO_TOKEN:?Set a random demo token before starting}
+    volumes:
+      - essenza_data:/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+volumes:
+  essenza_data:

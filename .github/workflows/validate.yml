@@ -13,9 +13,27 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m unittest backend.test_api -v
+      - run: python -m unittest backend.test_api backend.test_assistant backend.test_worker -v
       - run: python -m pip install playwright==1.51.0
       - run: python -m playwright install --with-deps chromium
       - run: python smoke_test.py
 
       - run: python -m unittest backend.test_browser -v
+
+      - name: Save browser evidence
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: essenza-browser-evidence
+          path: |
+            preview.png
+            painel.png
+            mobile.png
+      - name: Verify container build and loopback health
+        env:
+          ESSENZA_DEMO_TOKEN: test-token-for-ci-only-0123456789
+        run: |
+          docker compose up -d --build
+          trap 'docker compose down -v' EXIT
+          curl --fail --retry 12 --retry-connrefused --retry-delay 1 http://127.0.0.1:8765/health
+          curl --fail -H "Authorization: Bearer $ESSENZA_DEMO_TOKEN" http://127.0.0.1:8765/metrics

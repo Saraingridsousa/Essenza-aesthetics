@@ -10,6 +10,7 @@ from contextlib import contextmanager
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
+from backend import assistant
 
 SERVICES = ("Limpeza de pele", "Massagem facial", "Hidratação facial", "Drenagem linfática", "Cuidados corporais", "Massagem relaxante", "Avaliação geral")
 STATUSES = ("Novo", "Em contato", "Agendado", "Convertido")
@@ -198,6 +199,11 @@ class Handler(BaseHTTPRequestHandler):
             return self.send(401,{"error":"Unauthorized"})
         path=urlsplit(self.path).path
         try:
+            if path=="/assistant":
+                data=self.payload()
+                if not isinstance(data,dict):
+                    raise ValueError("Invalid topic")
+                return self.send(200,assistant.answer(data.get("topic")))
             if path=="/leads":
                 lead_id,created=capture(self.server.db_path,self.payload())
                 return self.send(201 if created else 200,{"id":lead_id,"created":created})
@@ -232,7 +238,9 @@ def main():
         raise SystemExit("Set ESSENZA_DEMO_TOKEN to a random token of at least 24 characters.")
     path=Path(os.environ.get("ESSENZA_DB","essenza-demo.sqlite3"))
     init(path)
-    server=ThreadingHTTPServer(("127.0.0.1",8765),Handler)
+    # Container port is published only to the host loopback by compose.yaml.
+    bind="0.0.0.0" if os.environ.get("ESSENZA_CONTAINER")=="1" else "127.0.0.1"
+    server=ThreadingHTTPServer((bind,8765),Handler)
     server.db_path=path
     server.token=token
     print("Local synthetic demo API: http://127.0.0.1:8765 (no production use)")
