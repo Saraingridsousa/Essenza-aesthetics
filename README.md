@@ -1,20 +1,20 @@
 # Essenza Estética — Landing Page & Lead Management
 
-A responsive commercial website and interactive lead-management demonstration by Sara Ingrid. Essenza is a fictional clinic, created for a portfolio project; it does not provide medical or aesthetic services.
+A responsive commercial website and interactive lead-management demonstration by Sara Ingrid. Essenza is a fictional clinic created for a portfolio; it does not provide medical or aesthetic services.
 
 ## Features
 
-- Responsive landing page, service selection and mobile navigation.
-- Lead form with example-data autofill, validation and duplicate detection.
-- In-memory dashboard with service counts, status updates, filters, event history and CSV export.
-- Resettable synthetic dataset and session-only metrics.
-- Original SVG illustrations, no third-party runtime dependencies.
+- V2: user-selected floral symbol recreated as an SVG, favicon, responsive header and editorial illustrations.
+- Six service cards in three filterable categories, clinic concept, experience, FAQ, contact section and mobile booking CTA.
+- Lead form with sample-data autofill, contact-period preference, validation and duplicate detection.
+- Session-only dashboard with search, status filters, four-stage lead funnel, service and source counts, event history and CSV export.
+- Resettable synthetic dataset; no third-party runtime dependencies.
 
-## Demo
+## Live demo
 
-Open `index.html` directly or run `python -m http.server 8000` and open http://localhost:8000. The site can be hosted on GitHub Pages from the main branch root.
+https://saraingridsousa.github.io/Essenza-aesthetics/
 
-Select a service, fill the form with the example-data button, submit and open the dashboard via the demo banner. Use only fictional information; the form accepts reserved example.com/.org/.net email addresses. No data is sent to any external service.
+Open `index.html` directly or run `python -m http.server 8000` and visit http://localhost:8000. Select a service, fill the form with example data, submit, and open the dashboard via the demo banner. Use only fictional information; the email must end in example.com/.org/.net. No information is sent externally.
 
 ## Architecture
 
@@ -35,13 +35,13 @@ python -m playwright install chromium
 python smoke_test.py
 ```
 
-The browser smoke test checks service selection, lead submission, duplicate prevention, email validation, status changes, filtering, CSV export, reset, mobile navigation and overflow at 320, 390, 768, 1024 and 1440 pixels. Set CHROMIUM_PATH to use an existing Chromium executable. Screenshots are produced locally and excluded from version control.
+The smoke test verifies the logo, category filters, lead capture, duplicate prevention, email validation, contact period, search, funnel stages, CSV export, reset, mobile navigation, and layout overflow on six viewport widths (320, 390, 768, 801, 1024, 1440) for both the landing page and dashboard. It loads local HTML with the SVG embedded as a data URI for isolated testing. Set `CHROMIUM_PATH` to use an existing Chromium executable. Screenshots are generated locally and excluded from version control.
 
 ## Scope and roadmap
 
-The demo has no real scheduling, persistent storage, authentication, backend, CRM integration, notifications or AI. Dashboard access is intentionally public for demonstration only. Do not use it to collect actual client information. No testimonials, clinical credentials or outcomes are invented. The noindex directive is intentional for the fictitious brand.
+No real scheduling, persistence, authentication, backend, CRM integration, notifications or AI. Dashboard access is intentionally public for demonstration only. The funnel displays current stage counts, not historical conversion rates. Do not collect actual client information. No invented testimonials, clinical credentials or results. The illustrations are conceptual, not photographs. The noindex directive is intentional for the fictitious brand.
 
-Next: modular frontend, CI, licensed photography, backend with protected dashboard, server-side validation, database, n8n integration with idempotency and retries, and commercial analytics. A real deployment requires appropriate privacy, security and approved content.
+Next: licensed photography, modular frontend, CI, backend with protected dashboard, server-side validation, database, n8n integration with idempotency and retries, and business analytics. Actual deployments require approved clinical content, contact information, security and privacy controls.
 
 ## Author
 
