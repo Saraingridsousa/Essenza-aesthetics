@@ -17,6 +17,10 @@ with sync_playwright() as pw:
     page.screenshot(path=str(p.parent/'preview.png'))
     assert page.locator('h1').is_visible()
     assert page.locator('.header .brand img').evaluate('(i)=>i.complete && i.naturalWidth>0')
+    assert page.locator('.gallery-card').count() == 3
+    assert page.locator('img[data-photo][src]').count() == 0
+    page.locator('[data-assistant=price]').click()
+    assert 'não possui preços' in page.locator('#assistant-answer').inner_text()
     page.locator('[data-category=Corporal]').click()
     assert page.locator('.service:visible').count() == 2
     page.locator('[data-category=Todos]').click()
@@ -36,6 +40,7 @@ with sync_playwright() as pw:
     assert page.locator('#lead-rows tr').count() == 1
     page.locator('#lead-search').fill('')
     page.locator('#lead-rows select').first.select_option('Convertido')
+    assert page.locator('#commercial-metrics strong').first.inner_text() == '25%'
     page.locator('#status-filter').select_option('Convertido')
     assert page.locator('#lead-rows tr').count() == 1
     page.locator('#status-filter').select_option('Todos')
@@ -76,6 +81,11 @@ with sync_playwright() as pw:
         page.locator('[data-dashboard]').first.click()
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), ('dashboard',w)
         page.close()
+    reduced = b.new_page(viewport={'width':390,'height':850}, reduced_motion='reduce')
+    open_demo(reduced)
+    assert not reduced.locator('html').evaluate("(el)=>el.classList.contains('motion-ready')")
+    assert reduced.locator('h1').evaluate("(el)=>getComputedStyle(el).animationName === 'none'")
+    reduced.close()
     assert not errs, errs
     b.close()
 print('PASS: logo, service filters, lead capture, validation, duplicate prevention, contact period, search, funnel, CSV, reset, mobile navigation and six viewport widths.')

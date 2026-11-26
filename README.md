@@ -10,11 +10,13 @@ A responsive commercial website and interactive lead-management demonstration by
 - Session-only dashboard with search, status filters, four-stage lead funnel, service and source counts, event history and CSV export.
 - Resettable synthetic dataset; no third-party runtime dependencies.
 
+- V3: entrance animations, scroll microinteractions with reduced-motion support, conceptual gallery with opt-in external photography, deterministic guided FAQ and explicitly scoped commercial metrics.
+
 ## Live demo
 
 https://saraingridsousa.github.io/Essenza-aesthetics/
 
-Open `index.html` directly or run `python -m http.server 8000` and visit http://localhost:8000. Select a service, fill the form with example data, submit, and open the dashboard via the demo banner. Use only fictional information; the email must end in example.com/.org/.net. No information is sent externally.
+Open `index.html` directly or run `python -m http.server 8000` and visit http://localhost:8000. Select a service, fill the form with example data, submit, and open the dashboard via the demo banner. Use only fictional information; the email must end in example.com/.org/.net. No form information is sent externally. Optional gallery photos are requested from Pexels only on explicit visitor action; the IP is visible to that image host, with referrer suppressed.
 
 ## Architecture
 
@@ -39,9 +41,9 @@ The smoke test verifies the logo, category filters, lead capture, duplicate prev
 
 ## Scope and roadmap
 
-No real scheduling, persistence, authentication, backend, CRM integration, notifications or AI. Dashboard access is intentionally public for demonstration only. The funnel displays current stage counts, not historical conversion rates. Do not collect actual client information. No invented testimonials, clinical credentials or results. The illustrations are conceptual, not photographs. The noindex directive is intentional for the fictitious brand.
+The public static demo has no real scheduling, persistence, authentication, backend integration, CRM integration, notifications or generative AI. The local API and workflow prototype are separate; see docs/LOCAL-AUTOMATION.md. Dashboard access is intentionally public for demonstration only. The funnel displays current stage counts, not historical conversion rates. Do not collect actual client information. No invented testimonials, clinical credentials or results. The illustrations are conceptual, not photographs. The noindex directive is intentional for the fictitious brand.
 
-Next: licensed photography, modular frontend, CI, backend with protected dashboard, server-side validation, database, n8n integration with idempotency and retries, and business analytics. Actual deployments require approved clinical content, contact information, security and privacy controls.
+Next: download and optimize authorized photography locally, deploy a protected backend with HTTPS and production authentication, connect a real CRM/n8n instance, and evaluate an evidence-based AI assistant. Actual deployments require approved clinical content, contact information, security and privacy controls.
 
 ## Author
 
