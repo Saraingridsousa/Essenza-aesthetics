@@ -18,7 +18,7 @@ jobs:
       - run: python -m playwright install --with-deps chromium
       - run: python smoke_test.py
 
-      - run: python -m unittest backend.test_browser -v
+      - run: python -m unittest backend.test_browser backend.test_mobile_photos -v
 
       - name: Save browser evidence
         if: success()

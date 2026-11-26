@@ -155,6 +155,8 @@ class Handler(BaseHTTPRequestHandler):
                    "/assets/photos/team-care.webp": ("assets/photos/team-care.webp", "image/webp"),
                    "/assets/photos/experience.webp": ("assets/photos/experience.webp", "image/webp"),
                    "/assets/photos/cta-room.webp": ("assets/photos/cta-room.webp", "image/webp"),
+                   "/assets/photos/about-neutral.webp": ("assets/photos/about-neutral.webp", "image/webp"),
+                   "/assets/photos/cta-neutral.webp": ("assets/photos/cta-neutral.webp", "image/webp"),
                    "/assets/social/og-cover.jpg": ("assets/social/og-cover.jpg", "image/jpeg")}
         if path not in allowed:
             return False

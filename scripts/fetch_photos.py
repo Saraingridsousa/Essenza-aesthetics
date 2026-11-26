@@ -16,12 +16,12 @@ SOURCES.update({
     "drainage.webp":"https://images.pexels.com/photos/5240640/pexels-photo-5240640.jpeg?auto=compress&w=1200",
     "bodycare.webp":"https://images.pexels.com/photos/6976813/pexels-photo-6976813.jpeg?auto=compress&w=1200",
     "relaxing.webp":"https://images.pexels.com/photos/4599392/pexels-photo-4599392.jpeg?auto=compress&w=1200",
-    "about-space.webp":"https://images.pexels.com/photos/6899538/pexels-photo-6899538.jpeg?auto=compress&w=1200",
+    "about-neutral.webp":"https://images.pexels.com/photos/7195804/pexels-photo-7195804.jpeg?auto=compress&w=1200",
     "skincare.webp":"https://images.pexels.com/photos/7691167/pexels-photo-7691167.jpeg?auto=compress&w=1200",
     "reception.webp":"https://images.pexels.com/photos/16571736/pexels-photo-16571736.jpeg?auto=compress&w=1200",
     "team-care.webp":"https://images.pexels.com/photos/5659049/pexels-photo-5659049.jpeg?auto=compress&w=1200",
     "experience.webp":"https://images.pexels.com/photos/6899553/pexels-photo-6899553.jpeg?auto=compress&w=1200",
-    "cta-room.webp":"https://images.pexels.com/photos/6899549/pexels-photo-6899549.jpeg?auto=compress&w=1200",
+    "cta-neutral.webp":"https://images.pexels.com/photos/6560312/pexels-photo-6560312.jpeg?auto=compress&w=1200",
 })
 
 def make_cover(folder):

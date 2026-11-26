@@ -24,7 +24,7 @@ Essenza is a fictional aesthetics clinic designed to demonstrate how a small bus
 3. Load the 90-lead scenario to explore the Kanban, date/channel filters and commercial report. Reset the demo to return to the three-record sample.
 4. Ask the guided assistant an administrative question, e.g. “Como agendar uma avaliação?”. Unsupported questions are escalated instead of answered.
 
-The public demo runs in memory; reload discards changes. No credentials or external API required. Photography throughout the page is a licensed visual reference, not actual clinic imagery; local WebP assets fall back to illustrations if unavailable. Never enter real personal or health data.
+The public demo runs in memory; reload discards changes. No credentials or external API required. Photography throughout the page is a licensed visual reference, not actual clinic imagery; local WebP assets use native browser loading, eager priority for the first two images, and stable aspect-ratio containers; fallbacks remain visible if an image is unavailable. Never enter real personal or health data.
 
 ## Architecture
 
