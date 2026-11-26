@@ -20,7 +20,7 @@ SOURCES.update({
     "skincare.webp":"https://images.pexels.com/photos/7691167/pexels-photo-7691167.jpeg?auto=compress&w=1200",
     "reception.webp":"https://images.pexels.com/photos/16571736/pexels-photo-16571736.jpeg?auto=compress&w=1200",
     "team-care.webp":"https://images.pexels.com/photos/5659049/pexels-photo-5659049.jpeg?auto=compress&w=1200",
-    "experience.webp":"https://images.pexels.com/photos/6899553/pexels-photo-6899553.jpeg?auto=compress&w=1200",
+    "experience-warm.webp":"https://images.pexels.com/photos/6186752/pexels-photo-6186752.jpeg?auto=compress&w=1200",
     "cta-spa.webp":"https://images.pexels.com/photos/35884499/pexels-photo-35884499.jpeg?auto=compress&w=1200",
 })
 

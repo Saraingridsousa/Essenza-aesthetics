@@ -17,7 +17,7 @@ Stock references are documented and may be downloaded with `python scripts/fetch
 - [skincare — Pexels ID 7691167](https://www.pexels.com/photo/close-up-shot-of-skincare-products-7691167/).
 - [reception — Pexels ID 16571736](https://www.pexels.com/photo/lights-in-room-16571736/).
 - [team-care — Pexels ID 5659049](https://www.pexels.com/photo/a-woman-having-a-facial-treatment-5659049/).
-- [experience — Pexels ID 6899553](https://www.pexels.com/photo/skincare-products-on-shelves-in-beauty-salon-6899553/).
+- [experience-warm — Pexels ID 6186752, Tima Miroshnichenko](https://www.pexels.com/photo/rolled-towels-on-the-wooden-table-6186752/).
 - [cta-spa — Pexels ID 35884499, Marine Fougère](https://www.pexels.com/photo/cozy-spa-massage-table-with-candle-and-decor-35884499/).
 
 The source pages identify free stock photos. The drainage card uses an illustrative manual-care image, not a demonstration of lymphatic drainage technique. [Pexels License](https://www.pexels.com/license/) permits use in commercial projects subject to its terms; the photos are incorporated as references in the website, not offered as standalone stock downloads. The photos do not depict a real Essenza clinic. The acquisition workflow retrieves and optimizes WebP files if the source CDN is reachable. If local files are absent, the site retains the original illustrations without requesting external photos. Replace these with approved client photography in any actual deployment.

@@ -153,7 +153,7 @@ class Handler(BaseHTTPRequestHandler):
                    "/assets/photos/skincare.webp": ("assets/photos/skincare.webp", "image/webp"),
                    "/assets/photos/reception.webp": ("assets/photos/reception.webp", "image/webp"),
                    "/assets/photos/team-care.webp": ("assets/photos/team-care.webp", "image/webp"),
-                   "/assets/photos/experience.webp": ("assets/photos/experience.webp", "image/webp"),
+                   "/assets/photos/experience-warm.webp": ("assets/photos/experience-warm.webp", "image/webp"),
                    "/assets/photos/cta-room.webp": ("assets/photos/cta-room.webp", "image/webp"),
                    "/assets/photos/about-neutral.webp": ("assets/photos/about-neutral.webp", "image/webp"),
                    "/assets/photos/cta-spa.webp": ("assets/photos/cta-spa.webp", "image/webp"),
