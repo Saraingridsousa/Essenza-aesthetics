@@ -1,14 +1,14 @@
 # Local automation prototype (V3)
 
-The public GitHub Pages site remains entirely static. This separate Python/SQLite prototype demonstrates durable synthetic lead ingestion and a transactional outbox. It does not connect to the public form, collect real client information, or send notifications.
+The public GitHub Pages site remains entirely static. The Python/SQLite prototype serves the same landing page in a separate local-only integrated mode. It demonstrates durable synthetic lead ingestion and a transactional outbox. It never connects to the public GitHub Pages form, collects real client information, or sends notifications.
 
 ## Start the local API
 
 Python 3.10+; no third-party dependencies. From the repository root, set `ESSENZA_DEMO_TOKEN` to a random secret of at least 24 characters. Generate one with `python -c "import secrets; print(secrets.token_urlsafe(32))"`. In PowerShell set it with `$env:ESSENZA_DEMO_TOKEN = 'your-generated-token'`; in bash use `export ESSENZA_DEMO_TOKEN='your-generated-token'`. Never commit the value.
 
-Run `python -m backend.api`. The API binds to 127.0.0.1:8765 only. SQLite file `essenza-demo.sqlite3` is ignored by Git. Stop the API and delete that file to reset.
+Run `python -m backend.api`. The API binds to 127.0.0.1:8765 only. Open http://127.0.0.1:8765/ (not localhost), enter the token in the local banner, submit fictional sample data and open the dashboard. Status changes persist. Queue controls claim and acknowledge events or simulate a retryable failure; refresh to inspect the current counts. The public demo reset is disabled in integrated mode. Reloading requires reconnecting by token. The browser stores no token in persistent storage. SQLite file `essenza-demo.sqlite3` is ignored by Git. Stop the API and delete that file to reset.
 
-All endpoints except GET /health require Authorization: Bearer <token>. POST /leads accepts JSON: {"name":"Teste Exemplo","email":"teste@example.com","service":"Limpeza de pele","consent":true}. Only reserved demo email domains and allowlisted service, period and origin values are accepted. Repeat the request to verify idempotent capture: HTTP 201 first, 200 with same ID thereafter. GET /leads and GET /metrics return data and current status counts. POST /leads/{id}/status accepts {"status":"Agendado"}.
+The static UI, its logo and GET /health are public on loopback. Data endpoints require Authorization: Bearer <token>. POST /leads accepts JSON: {"name":"Teste Exemplo","email":"teste@example.com","service":"Limpeza de pele","consent":true}. Only reserved demo email domains and allowlisted service, period and origin values are accepted. Repeat the request to verify idempotent capture: HTTP 201 first, 200 with same ID thereafter. GET /leads and GET /metrics return data and current status counts. POST /leads/{id}/status accepts {"status":"Agendado"}.
 
 ## n8n demonstration
 
@@ -20,6 +20,6 @@ The API uses a transaction to create the lead and its event together; a uniquene
 
 ## Tests
 
-`python -m unittest backend.test_api -v` checks validation, idempotent capture, outbox creation, retries and lease fencing. These are domain tests, not a production security audit. Before any real deployment, implement user authentication, authorization, rate limits, HTTPS, encrypted storage, backups, audit/retention controls, monitoring, CRM delivery with deduplication and a clinical content review.
+`python -m unittest backend.test_api -v` checks validation, idempotent capture, outbox creation, retries and lease fencing. `python -m unittest backend.test_browser -v` requires Playwright/Chromium and exercises the browser, HTTP API, SQLite persistence and queue simulation. These are functional tests, not a production security audit. Before any real deployment, implement user authentication, authorization, rate limits, HTTPS, encrypted storage, backups, audit/retention controls, monitoring, CRM delivery with deduplication and a clinical content review.
 
 The browser FAQ is deterministic, not an LLM. A future generative assistant would require a curated knowledge base, evaluation and escalation rules; it must not recommend clinical procedures or diagnose.

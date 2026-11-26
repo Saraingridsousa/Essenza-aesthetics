@@ -17,3 +17,5 @@ jobs:
       - run: python -m pip install playwright==1.51.0
       - run: python -m playwright install --with-deps chromium
       - run: python smoke_test.py
+
+      - run: python -m unittest backend.test_browser -v

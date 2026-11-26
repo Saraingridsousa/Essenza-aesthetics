@@ -121,6 +121,31 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def local_host(self):
+        port = self.server.server_address[1]
+        expected = f"127.0.0.1:{port}"
+        return self.headers.get("Host") == expected and self.headers.get("Origin") in (None, "http://" + expected)
+
+    def static(self, path):
+        root = Path(__file__).resolve().parents[1]
+        allowed = {"/": ("index.html", "text/html; charset=utf-8"),
+                   "/index.html": ("index.html", "text/html; charset=utf-8"),
+                   "/assets/essenza-mark.svg": ("assets/essenza-mark.svg", "image/svg+xml")}
+        if path not in allowed:
+            return False
+        relative, content_type = allowed[path]
+        body = (root / relative).read_bytes()
+        if relative == "index.html":
+            body = body.replace(b'<html lang="pt-BR">', b'<html lang="pt-BR" data-local-demo="true">', 1)
+        self.send_response(200)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+        return True
+
     def authorized(self):
         supplied=self.headers.get("Authorization","")
         return hmac.compare_digest(supplied.encode(),("Bearer "+self.server.token).encode())
@@ -135,7 +160,11 @@ class Handler(BaseHTTPRequestHandler):
             raise ValueError("Invalid JSON body")
 
     def do_GET(self):
+        if not self.local_host():
+            return self.send(403,{"error":"Local host only"})
         path=urlsplit(self.path).path
+        if self.static(path):
+            return
         if path=="/health":
             return self.send(200,{"mode":"local synthetic demo"})
         if not self.authorized():
@@ -149,6 +178,8 @@ class Handler(BaseHTTPRequestHandler):
         return self.send(404,{"error":"Not found"})
 
     def do_POST(self):
+        if not self.local_host():
+            return self.send(403,{"error":"Local host only"})
         if not self.authorized():
             return self.send(401,{"error":"Unauthorized"})
         path=urlsplit(self.path).path
